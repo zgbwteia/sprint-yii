@@ -21,9 +21,9 @@ class m180308_102134_create_member_table extends Migration
             'email' => $this->string(255)->notNull(),
             'phone' => $this->string(15)->notNull(),
             'password' => $this->string(20)->notNull(),
-            'system_field' => $this->json()->notNull()->defaultValue([]),
+            'system_field' => $this->json()->notNull()->defaultValue('[]'),
             'member_type_id' => $this->integer(),
-            'created_at' => $this->datetime()->notNull(),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('NOW()'),
         ]);
 
         // creates index for column `member_type_id`

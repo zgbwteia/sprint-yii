@@ -15,7 +15,7 @@ class m180308_102107_create_member_type_table extends Migration
         $this->createTable('member_type', [
             'id' => $this->primaryKey(),
             'name' => $this->string(255)->notNull(),
-            'created_at' => $this->datetime()->notNull(),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('NOW()'),
         ]);
     }
 

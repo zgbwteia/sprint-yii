@@ -26,9 +26,9 @@ class m180308_102705_create_player_table extends Migration
             'birthday' => $this->datetime(),
             'score' => $this->integer()->notNull()->defaultValue(0),
             'coins' => $this->integer()->notNull()->defaultValue(0),
-            'system' => $this->json()->notNull()->defaultValue([]),
+            'system' => $this->json()->notNull()->defaultValue('[]'),
             'last_day' => $this->datetime(),
-            'created_at' => $this->datetime()->notNull(),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('NOW()'),
         ]);
 
         // creates index for column `campaign_id`

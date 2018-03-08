@@ -19,12 +19,12 @@ class m180308_102324_create_campaign_table extends Migration
         $this->createTable('campaign', [
             'id' => $this->primaryKey(),
             'member_id' => $this->integer(),
-            'campaign_type_id',
+            'campaign_type_id' => $this->integer(),
             'name' => $this->string(255)->notNull(),
             'login_type' => $this->integer()->notNull(),
             'custom_setting' => $this->text(),
             'message_end' => $this->text(),
-            'created_at' => $this->datetime()->notNull(),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('NOW()'),
         ]);
 
         // creates index for column `member_id`

@@ -15,7 +15,7 @@ class m180308_101452_create_campaign_status_table extends Migration
         $this->createTable('campaign_status', [
             'id' => $this->primaryKey(),
             'name' => $this->string(255)->notNull(),
-            'created_at' => $this->datetime()->notNull(),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('NOW()'),
         ]);
     }
 

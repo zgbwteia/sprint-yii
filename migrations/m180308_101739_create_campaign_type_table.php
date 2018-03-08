@@ -19,7 +19,7 @@ class m180308_101739_create_campaign_type_table extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string(255)->notNull(),
             'campaign_status_id' => $this->integer()->notNull(),
-            'created_at' => $this->datetime()->notNull(),
+            'created_at' => $this->timestamp()->notNull()->defaultExpression('NOW()'),
         ]);
 
         // creates index for column `campaign_status_id`

@@ -15,6 +15,9 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'GDz1S5uDUemz6_MeTqYnBcp0lr_Vrrch',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -43,14 +46,49 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => true,
+            'normalizer' => [
+                'class' => 'yii\web\UrlNormalizer',
+                'action' => \yii\web\UrlNormalizer::ACTION_REDIRECT_TEMPORARY,
+                'collapseSlashes' => true,
+                'normalizeTrailingSlash' => true
+            ],
             'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'campaign',
+                    'prefix' => '/api'
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'campaigns/status',
+                    'prefix' => '/api'
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'campaigns/type',
+                    'prefix' => '/api'
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'member',
+                    'prefix' => '/api'
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'members/type',
+                    'prefix' => '/api'
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'player',
+                    'prefix' => '/api'
+                ],
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
