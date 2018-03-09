@@ -37,5 +37,6 @@ return [
         'controller' => 'player',
         'prefix' => '/api'
     ],
-    'GET /api/init' => 'game/init'
+    'GET /api/game/init' => 'game/init',
+    'GET /api/game/info' => 'game/info',
 ];

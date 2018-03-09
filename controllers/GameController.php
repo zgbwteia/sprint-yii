@@ -17,9 +17,22 @@ namespace app\controllers;
 use app\models\Campaign;
 use app\models\CampaignStatus;
 use app\models\CampaignType;
+use yii\filters\AccessControl;
+use yii\filters\auth\QueryParamAuth;
 use yii\rest\Controller;
 
 class GameController extends Controller {
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::class,
+            'except' => ['init'],
+            'tokenParam' => 'uid'
+        ];
+        return $behaviors;
+    }
 
     public function actionInit($campaign_id) {
         $campaign = Campaign::find()->where(['id' => $campaign_id])->all()[0];
@@ -31,5 +44,11 @@ class GameController extends Controller {
             'time_server' => (new \DateTime)->getTimestamp()
         ];
     }
+
+    public function actionInfo() {
+        die;
+    }
+
+
 
 }
