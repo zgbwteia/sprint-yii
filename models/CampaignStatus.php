@@ -29,6 +29,7 @@ class CampaignStatus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['created_at'], 'default', 'value' => (new \DateTime())->format('Y-m-d H:i:s')],
             [['name'], 'required'],
             [['created_at'], 'safe'],
             [['name'], 'string', 'max' => 255],

@@ -39,4 +39,5 @@ return [
     ],
     'GET /api/game/init' => 'game/init',
     'GET /api/game/info' => 'game/info',
+    'POST /api/game/login' => 'game/login',
 ];

@@ -37,6 +37,7 @@ class Member extends \yii\db\ActiveRecord
         return [
             [['name', 'email', 'phone', 'password'], 'required'],
             [['system_field'], 'string'],
+            [['created_at'], 'default', 'value' => (new \DateTime())->format('Y-m-d H:i:s')],
             [['member_type_id'], 'default', 'value' => null],
             [['member_type_id'], 'integer'],
             [['created_at'], 'safe'],

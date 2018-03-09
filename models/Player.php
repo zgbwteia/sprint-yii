@@ -40,7 +40,9 @@ class Player extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function rules()
     {
         return [
-            [['campaign_id', 'sex', 'score', 'coins'], 'default', 'value' => null],
+            [['campaign_id', 'sex'], 'default', 'value' => null],
+            [['created_at'], 'default', 'value' => (new \DateTime())->format('Y-m-d H:i:s')],
+            [['score', 'coins'], 'default', 'value' => 0],
             [['campaign_id', 'sex', 'score', 'coins'], 'integer'],
             [['login', 'name', 'email', 'phone', 'sex'], 'required'],
             [['birthday', 'last_day', 'created_at'], 'safe'],
@@ -90,7 +92,11 @@ class Player extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findIdentity($id)
     {
-        // TODO: Implement findIdentity() method.
+        /*$player = Yii::$app->session->get('user');
+        if ($player === null) {
+            $player = Player::find()->where(['id' => $id])->one();
+        }
+        return $player;*/
         return null;
     }
 
@@ -105,7 +111,7 @@ class Player extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        // TODO: Implement findIdentityByAccessToken() method.
+        //TODO: найти способ поиска пользователя в редисе по uid
         return null;
     }
 
@@ -115,8 +121,7 @@ class Player extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public function getId()
     {
-        // TODO: Implement getId() method.
-        return null;
+        return $this->id;
     }
 
     /**

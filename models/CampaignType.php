@@ -32,6 +32,7 @@ class CampaignType extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'campaign_status_id'], 'required'],
+            [['created_at'], 'default', 'value' => (new \DateTime())->format('Y-m-d H:i:s')],
             [['campaign_status_id'], 'default', 'value' => null],
             [['campaign_status_id'], 'integer'],
             [['created_at'], 'safe'],
