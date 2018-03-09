@@ -1,3 +1,11 @@
+### Проект:
+Author: Dmitry Malakhov (abr_mail@mail.ru)
+Prohibited for commercial use without the prior written consent of author
+
+Автор: Дмитрий Малахов (abr_mail@mail.ru)
+Запрещено использование в коммерческих целях без письменного разрешения автора
+
+### Yii2:
 The Yii framework is free software. It is released under the terms of
 the following BSD License.
 
