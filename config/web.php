@@ -56,38 +56,7 @@ $config = [
                 'collapseSlashes' => true,
                 'normalizeTrailingSlash' => true
             ],
-            'rules' => [
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'campaign',
-                    'prefix' => '/api'
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'campaigns/status',
-                    'prefix' => '/api'
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'campaigns/type',
-                    'prefix' => '/api'
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'member',
-                    'prefix' => '/api'
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'members/type',
-                    'prefix' => '/api'
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'player',
-                    'prefix' => '/api'
-                ],
-            ],
+            'rules' => require __DIR__ . '/rules.php',
         ],
     ],
     'params' => $params,
