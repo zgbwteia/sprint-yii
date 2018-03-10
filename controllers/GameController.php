@@ -18,8 +18,6 @@ use app\models\Campaign;
 use app\models\CampaignStatus;
 use app\models\CampaignType;
 use app\models\Player;
-use app\models\PlayerInterface;
-use app\utils\Utils;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\auth\QueryParamAuth;
