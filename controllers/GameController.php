@@ -18,10 +18,13 @@ use app\models\Campaign;
 use app\models\CampaignStatus;
 use app\models\CampaignType;
 use app\models\Player;
+use app\models\PlayerInterface;
+use app\utils\Utils;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\Controller;
+use yii\web\BadRequestHttpException;
 
 class GameController extends Controller {
 
@@ -51,6 +54,10 @@ class GameController extends Controller {
         return $behaviors;
     }
 
+    /**
+     * @param $campaign_id
+     * @return array
+     */
     public function actionInit($campaign_id) {
         $campaign = Campaign::find()->where(['id' => $campaign_id])->all()[0];
         $campaign_status = CampaignStatus::find()->leftJoin(CampaignType::tableName(), CampaignStatus::tableName() . '.id = ' . CampaignType::tableName() . '.campaign_status_id')->where([CampaignType::tableName() . '.id' => $campaign->campaign_type_id])->all()[0];
@@ -63,9 +70,34 @@ class GameController extends Controller {
     }
 
     public function actionInfo() {
-        $a = 1;
+        $player = Player::find()->where(['id' => Yii::$app->user->getId()])->one();
+        $params = [
+            'id' => null,
+            'name' => null,
+            'email' => null,
+            'phone' => null,
+            'sex' => null,
+            'birthday' => null,
+            'system' => null,
+            'coins' => null,
+            'score' => null,
+            'created_at' => null,
+            'last_day' => null
+        ];
+
+        foreach ($params as $name => $value) {
+            $params[$name] = $player->$name;
+        }
+
+        return [
+            'data' => $params
+        ];
     }
 
+    /**
+     * @return array
+     * @throws BadRequestHttpException
+     */
     public function actionLogin() {
         $params = [
             'campaign_id' => null,
@@ -76,13 +108,15 @@ class GameController extends Controller {
             'sex' => null,
             'birthday' => null
         ];
-        foreach ($params as $name => $param) {
+        foreach ($params as $name => $value) {
             $params[$name] = Yii::$app->request->post($name);
         }
         $player = Player::find()->where(['email' => $params['email']])->orWhere(['phone' => $params['name']])->one();
         if ($player === null) {
             $player = new Player($params);
-            $player->save();
+            if (!$player->save()) {
+                throw new BadRequestHttpException(Yii::t('yii', $player->getErrorSummary(true)[0]));
+            }
         }
 
         return [
@@ -93,7 +127,7 @@ class GameController extends Controller {
                 'reg_date' => $player->created_at,
                 'last_day' => $player->last_day,
             ],
-            'uid' => null //TODO: понять, как сгенерить uid и записать его в редис
+            'uid' => $player->generateUid()
         ];
     }
 

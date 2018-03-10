@@ -39,7 +39,7 @@ class Campaign extends \yii\db\ActiveRecord
             [['member_id', 'campaign_type_id', 'login_type'], 'default', 'value' => null],
             [['created_at'], 'default', 'value' => (new \DateTime())->format('Y-m-d H:i:s')],
             [['member_id', 'campaign_type_id', 'login_type'], 'integer'],
-            [['name', 'login_type'], 'required'],
+            [['member_id', 'campaign_type_id', 'name', 'login_type'], 'required'],
             [['custom_setting', 'message_end'], 'string'],
             [['created_at'], 'safe'],
             [['name'], 'string', 'max' => 255],

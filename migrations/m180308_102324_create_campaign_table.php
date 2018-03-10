@@ -18,8 +18,8 @@ class m180308_102324_create_campaign_table extends Migration
     {
         $this->createTable('campaign', [
             'id' => $this->primaryKey(),
-            'member_id' => $this->integer(),
-            'campaign_type_id' => $this->integer(),
+            'member_id' => $this->integer()->notNull(),
+            'campaign_type_id' => $this->integer()->notNull(),
             'name' => $this->string(255)->notNull(),
             'login_type' => $this->integer()->notNull(),
             'custom_setting' => $this->text(),

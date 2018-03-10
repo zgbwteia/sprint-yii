@@ -22,7 +22,7 @@ class m180308_102134_create_member_table extends Migration
             'phone' => $this->string(15)->notNull(),
             'password' => $this->string(20)->notNull(),
             'system_field' => $this->json()->notNull()->defaultValue('[]'),
-            'member_type_id' => $this->integer(),
+            'member_type_id' => $this->integer()->notNull(),
             'created_at' => $this->timestamp()->notNull()->defaultExpression('NOW()'),
         ]);
 

@@ -1,8 +1,9 @@
 <?php
 
 namespace app\models;
-
 use Yii;
+use yii\db\ActiveRecord;
+use yii\web\BadRequestHttpException;
 use yii\web\IdentityInterface;
 
 /**
@@ -24,7 +25,7 @@ use yii\web\IdentityInterface;
  *
  * @property Campaign $campaign
  */
-class Player extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
+class Player extends ActiveRecord implements IdentityInterface
 {
     /**
      * @inheritdoc
@@ -44,7 +45,7 @@ class Player extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             [['created_at'], 'default', 'value' => (new \DateTime())->format('Y-m-d H:i:s')],
             [['score', 'coins'], 'default', 'value' => 0],
             [['campaign_id', 'sex', 'score', 'coins'], 'integer'],
-            [['login', 'name', 'email', 'phone', 'sex'], 'required'],
+            [['campaign_id', 'login', 'name', 'email', 'phone', 'sex'], 'required'],
             [['birthday', 'last_day', 'created_at'], 'safe'],
             [['system'], 'string'],
             [['login', 'name', 'email'], 'string', 'max' => 255],
@@ -84,6 +85,11 @@ class Player extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     }
 
     /**
+     * @var string $uid
+     */
+    public $uid;
+
+    /**
      * Finds an identity by the given ID.
      * @param string|int $id the ID to be looked for
      * @return IdentityInterface the identity object that matches the given ID.
@@ -92,11 +98,6 @@ class Player extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findIdentity($id)
     {
-        /*$player = Yii::$app->session->get('user');
-        if ($player === null) {
-            $player = Player::find()->where(['id' => $id])->one();
-        }
-        return $player;*/
         return null;
     }
 
@@ -111,8 +112,9 @@ class Player extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        //TODO: найти способ поиска пользователя в редисе по uid
-        return null;
+        $redis = Yii::$app->redis;
+        $player = unserialize($redis->get('uid_' . $token));
+        return $player;
     }
 
     /**
@@ -156,5 +158,28 @@ class Player extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return null;
     }
 
+    /**
+     * @return string|null
+     * @throws BadRequestHttpException
+     */
+    public function generateUid()
+    {
+        $redis = Yii::$app->redis;
+        $userKey = 'player_' . $this->getId();
+        $uid = null;
+        try {
+            $oldRedisUid = $redis->get($userKey);
+            if ($oldRedisUid !== null) {
+                $redis->del('uid_' . $oldRedisUid);
+                $redis->del($userKey);
+            }
+            $uid = md5(random_bytes(20));
+            $redis->set($userKey, $uid);
+            $redis->set('uid_' . $uid, serialize($this));
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException(Yii::t('yii', $e->getMessage()));
+        }
 
+        return $uid;
+    }
 }

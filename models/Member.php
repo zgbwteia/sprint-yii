@@ -35,7 +35,7 @@ class Member extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'email', 'phone', 'password'], 'required'],
+            [['name', 'email', 'phone', 'password', 'member_type_id'], 'required'],
             [['system_field'], 'string'],
             [['created_at'], 'default', 'value' => (new \DateTime())->format('Y-m-d H:i:s')],
             [['member_type_id'], 'default', 'value' => null],

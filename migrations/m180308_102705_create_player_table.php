@@ -17,7 +17,7 @@ class m180308_102705_create_player_table extends Migration
     {
         $this->createTable('player', [
             'id' => $this->primaryKey(),
-            'campaign_id' => $this->integer(),
+            'campaign_id' => $this->integer()->notNull(),
             'login' => $this->string(255)->notNull(),
             'name' => $this->string(255)->notNull(),
             'email' => $this->string(255)->notNull(),
